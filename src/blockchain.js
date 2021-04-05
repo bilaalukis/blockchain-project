@@ -1,4 +1,4 @@
-const crypto = require("crypto"); //Hash function
+const SHA256 = require("crypto-js/sha256"); //Hash function
 const EC = require("elliptic").ec;
 const ec = new EC("secp256k1"); // Algorithm basis for bitcoin
 
@@ -12,10 +12,9 @@ class Transaction {
 
   // Hash calculator done with SHA256
   calculateHash() {
-    return crypto
-      .createHash("sha256")
-      .update(this.fromAddress + this.toAddress + this.amount + this.timestamp)
-      .digest("hex");
+    return SHA256(
+      this.fromAddress + this.toAddress + this.amount + this.timestamp
+    ).toString();
   }
 
   // Signs a transaction with the given Elliptic keypair value
@@ -55,15 +54,12 @@ class Block {
 
   // Take the property of the block and run it through a hash function
   calculateHash() {
-    return crypto
-      .createHash("sha256")
-      .update(
-        this.previousHash +
-          this.timestamp +
-          JSON.stringify(this.transactions) +
-          this.nonce
-      )
-      .digest("hex");
+    return SHA256(
+      this.previousHash +
+        this.timestamp +
+        JSON.stringify(this.transactions) +
+        this.nonce
+    ).toString();
   }
 
   mineBlock(difficulty) {
