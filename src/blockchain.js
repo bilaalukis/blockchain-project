@@ -45,11 +45,11 @@ class Transaction {
 
 class Block {
   constructor(timestamp, transactions, previousHash = "") {
+    this.previousHash = previousHash;
     this.timestamp = timestamp;
     this.transactions = transactions;
-    this.previousHash = previousHash;
-    this.hash = this.calculateHash(); //Hash of block
     this.nonce = 0;
+    this.hash = this.calculateHash(); //Hash of block
   }
 
   // Take the property of the block and run it through a hash function
